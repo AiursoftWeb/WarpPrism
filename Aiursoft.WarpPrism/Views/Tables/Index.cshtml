@@ -21,7 +21,7 @@
 @foreach (var item in Model.Tables) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TableName)
+                <i class="fa fa-table fa-2x"></i> @Html.DisplayFor(modelItem => item.TableName)
             </td>
             <td>
                 <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.TableId">重命名</a>

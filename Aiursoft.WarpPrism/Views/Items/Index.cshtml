@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
 }
 <h2>编辑表数据</h2>
+<a class="btn btn-success" asp-action="Create" asp-route-id="@Model.EntireTable.TableId">插入新数据</a>
 <p>此处展示的是数据库中一个表的所有数据。你可以<a asp-action="Create" asp-route-id="@Model.EntireTable.TableId">插入新数据</a>，或对现有的数据进行操作。</p>
 <table class="table">
     <thead>

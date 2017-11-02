@@ -6,7 +6,7 @@
 
 <h2>数据库列表</h2>
 
-<p>这里是程序连接到的所有数据库</p>
+<p>这里是程序已经连接到的所有数据库。</p>
 <p>
     <a class="btn btn-success" asp-action="Create">新建数据库</a>
 </p>
@@ -14,7 +14,7 @@
     <thead>
         <tr>
                 <th>
-                    数据库名称
+                   数据库名称
                 </th>
             <th></th>
         </tr>
@@ -23,11 +23,11 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DataBaseName)
+                <i class="fa fa-database fa-2x"></i> @Html.DisplayFor(modelItem => item.DataBaseName)
             </td>
             <td>
                 <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.DataBaseId">重命名</a> 
-                <a class="btn btn-warning" asp-controller="Tables" asp-action="Index" asp-route-id="@item.DataBaseId">查看所有表</a> 
+                <a class="btn btn-warning" asp-controller="Tables" asp-action="Index" asp-route-id="@item.DataBaseId">查看表</a> 
                 <a class="btn btn-success" asp-controller="Tables" asp-action="Create" asp-route-id="@item.DataBaseId">新建表</a> 
                 <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.DataBaseId">属性</a>
                 <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.DataBaseId">删除</a>
