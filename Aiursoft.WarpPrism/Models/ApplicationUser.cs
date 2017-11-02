@@ -76,8 +76,8 @@ namespace Aiursoft.WarpPrism.Models
         [ForeignKey(nameof(ItemId))]
         public Item ItemContext { get; set; }
 
-        public int PropertyId { get; set; }
+        public int? PropertyId { get; set; }
         [ForeignKey(nameof(PropertyId))]
-        public Property PropertyContext { get; set; }
+        public virtual Property PropertyContext { get; set; }
     }
 }

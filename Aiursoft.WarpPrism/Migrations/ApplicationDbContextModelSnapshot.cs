@@ -9,13 +9,12 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace Aiursoft.WarpPrism.Data.Migrations
+namespace Aiursoft.WarpPrism.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171102153734_renameProperties")]
-    partial class renameProperties
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,7 +141,7 @@ namespace Aiursoft.WarpPrism.Data.Migrations
 
                     b.Property<int>("ItemId");
 
-                    b.Property<int>("PropertyId");
+                    b.Property<int?>("PropertyId");
 
                     b.Property<string>("RealValue");
 
@@ -296,8 +295,7 @@ namespace Aiursoft.WarpPrism.Data.Migrations
 
                     b.HasOne("Aiursoft.WarpPrism.Models.Property", "PropertyContext")
                         .WithMany("Values")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PropertyId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

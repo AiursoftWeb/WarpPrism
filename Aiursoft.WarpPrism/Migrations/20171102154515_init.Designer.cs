@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace Aiursoft.WarpPrism.Data.Migrations
+namespace Aiursoft.WarpPrism.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171102153648_InitModel")]
-    partial class InitModel
+    [Migration("20171102154515_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -116,7 +116,7 @@ namespace Aiursoft.WarpPrism.Data.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Propertys");
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("Aiursoft.WarpPrism.Models.Table", b =>
@@ -142,7 +142,7 @@ namespace Aiursoft.WarpPrism.Data.Migrations
 
                     b.Property<int>("ItemId");
 
-                    b.Property<int>("PropertyId");
+                    b.Property<int?>("PropertyId");
 
                     b.Property<string>("RealValue");
 
@@ -296,8 +296,7 @@ namespace Aiursoft.WarpPrism.Data.Migrations
 
                     b.HasOne("Aiursoft.WarpPrism.Models.Property", "PropertyContext")
                         .WithMany("Values")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PropertyId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

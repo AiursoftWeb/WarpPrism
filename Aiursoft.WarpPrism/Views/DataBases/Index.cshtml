@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Aiursoft.WarpPrism.Models.DataBase>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataBaseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreateTime)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataBaseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateTime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DataBaseId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DataBaseId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DataBaseId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
