@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var table = $('.table');
+    var table = $('#table');
     if (table != null) {
         table.dataTable({
             bLengthChange: true,
