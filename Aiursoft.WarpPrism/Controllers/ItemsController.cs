@@ -26,38 +26,19 @@ namespace Aiursoft.WarpPrism.Controllers
 
             var table = await _context
                 .Tables
-                .Include(t=>t.Properties)
-                .Include(t=>t.Items)
-                .SingleOrDefaultAsync(t=>t.TableId == id);
+                .Include(t => t.Properties)
+                .Include(t => t.Items)
+                .SingleOrDefaultAsync(t => t.TableId == id);
             var allValues = await _context
                 .Values
                 .Include(t => t.ItemContext)
                 .Where(t => t.ItemContext.TableId == id)
                 .ToListAsync();
-            return View( new IndexViewModel
+            return View(new IndexViewModel
             {
                 EntireTable = table,
                 AllValues = allValues
             });
-        }
-
-        // GET: Items/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var item = await _context.Items
-                .Include(i => i.Context)
-                .SingleOrDefaultAsync(m => m.ItemId == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            return View(item);
         }
 
         // GET: Items/Create
@@ -65,7 +46,7 @@ namespace Aiursoft.WarpPrism.Controllers
         {
             var model = new CreateViewModel
             {
-                Properties = await _context.Properties.Where(t=>t.TableId == id).ToListAsync(),
+                Properties = await _context.Properties.Where(t => t.TableId == id).ToListAsync(),
                 TableId = id
             };
             return View(model);
@@ -84,9 +65,9 @@ namespace Aiursoft.WarpPrism.Controllers
             };
             _context.Items.Add(item);
             await _context.SaveChangesAsync();
-            foreach(var propertyId in Request.Form.Keys)
+            foreach (var propertyId in Request.Form.Keys)
             {
-                if(int.TryParse(propertyId, out var n))
+                if (int.TryParse(propertyId, out var n))
                 {
                     var newValue = new Value
                     {
@@ -98,32 +79,20 @@ namespace Aiursoft.WarpPrism.Controllers
                 }
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index),new { id = model.TableId});
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(item);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //ViewData["TableId"] = new SelectList(_context.Tables, "TableId", "TableId", item.TableId);
-            //return View(item);
+            return RedirectToAction(nameof(Index), new { id = model.TableId });
         }
 
         // GET: Items/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            var item = await _context.Items.SingleOrDefaultAsync(t=>t.ItemId == id);
+            var model = new EditViewModel
             {
-                return NotFound();
-            }
-
-            var item = await _context.Items.SingleOrDefaultAsync(m => m.ItemId == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            ViewData["TableId"] = new SelectList(_context.Tables, "TableId", "TableId", item.TableId);
-            return View(item);
+                Properties = await _context.Properties.Where(t => t.TableId == item.TableId).ToListAsync(),
+                TableId = item.TableId,
+                TargetItemId = id
+            };
+            return View(model);
         }
 
         // POST: Items/Edit/5
@@ -131,35 +100,26 @@ namespace Aiursoft.WarpPrism.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,TableId")] Item item)
+        public async Task<IActionResult> Edit(EditViewModel model)
         {
-            if (id != item.ItemId)
+            _context.Values.RemoveRange(_context.Values.Where(t => t.ItemId == model.TargetItemId));
+            await _context.SaveChangesAsync();
+            var item = await _context.Items.SingleOrDefaultAsync(t=>t.ItemId == model.TargetItemId);
+            foreach (var propertyId in Request.Form.Keys)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (int.TryParse(propertyId, out var n))
                 {
-                    _context.Update(item);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ItemExists(item.ItemId))
+                    var newValue = new Value
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                        ItemId = item.ItemId,
+                        PropertyId = n,
+                        RealValue = Request.Form[propertyId]
+                    };
+                    _context.Values.Add(newValue);
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["TableId"] = new SelectList(_context.Tables, "TableId", "TableId", item.TableId);
-            return View(item);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), new { id = model.TableId });
         }
 
         // GET: Items/Delete/5
@@ -188,8 +148,9 @@ namespace Aiursoft.WarpPrism.Controllers
         {
             var item = await _context.Items.SingleOrDefaultAsync(m => m.ItemId == id);
             _context.Items.Remove(item);
+            _context.Values.RemoveRange(_context.Values.Where(t=>t.ItemId == id));
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = item.TableId });
         }
 
         private bool ItemExists(int id)

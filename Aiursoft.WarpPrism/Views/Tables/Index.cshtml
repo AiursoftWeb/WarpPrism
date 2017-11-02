@@ -6,7 +6,7 @@
 
 <h2>所有表</h2>
 <p>
-    <a class="btn btn-success" asp-action="Create" asp-route-id="">新建数据库</a>
+    <a class="btn btn-success" asp-action="Create" asp-route-id="@Model.DatabaseId">新建表</a>
 </p>
 <table class="table">
     <thead>
@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Tables) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.TableName)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aiursoft.WarpPrism.Data;
 using Aiursoft.WarpPrism.Models;
+using Aiursoft.WarpPrism.Models.PropertiesViewModels;
 
 namespace Aiursoft.WarpPrism.Controllers
 {
@@ -23,7 +24,15 @@ namespace Aiursoft.WarpPrism.Controllers
         public async Task<IActionResult> Index(int id)//Table Id
         {
             var applicationDbContext = _context.Properties.Include(t => t.Context);
-            return View(await applicationDbContext.Where(t=>t.TableId==id).ToListAsync());
+            var table = await _context.Tables.SingleOrDefaultAsync(t => t.TableId == id);
+            var model = new IndexViewModel
+            {
+                AllProperTies = await applicationDbContext.Where(t => t.TableId == id).ToListAsync(),
+                DatabaseId = table.DatabaseId,
+                TableId = id
+            };
+
+            return View(model);
         }
 
         // GET: Properties/Details/5
@@ -33,7 +42,7 @@ namespace Aiursoft.WarpPrism.Controllers
             {
                 return NotFound();
             }
-            
+
 
             var property = await _context.Properties
                 .Include(t => t.Context)
@@ -47,10 +56,12 @@ namespace Aiursoft.WarpPrism.Controllers
         }
 
         // GET: Properties/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)//Table Id
         {
-            ViewData["TableId"] = new SelectList(_context.Tables, "TableId", "TableId");
-            return View();
+            return View(new Property
+            {
+                TableId = id
+            });
         }
 
         // POST: Properties/Create
@@ -64,7 +75,7 @@ namespace Aiursoft.WarpPrism.Controllers
             {
                 _context.Add(property);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),new { id = property.TableId});
             }
             ViewData["TableId"] = new SelectList(_context.Tables, "TableId", "TableId", property.TableId);
             return View(property);
@@ -117,7 +128,7 @@ namespace Aiursoft.WarpPrism.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = property.TableId });
             }
             ViewData["TableId"] = new SelectList(_context.Tables, "TableId", "TableId", property.TableId);
             return View(property);
@@ -148,9 +159,10 @@ namespace Aiursoft.WarpPrism.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var property = await _context.Properties.SingleOrDefaultAsync(m => m.PropertyId == id);
+            _context.Values.RemoveRange(_context.Values.Where(t => t.PropertyId == id));
             _context.Properties.Remove(property);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index),new { id = property.TableId});
         }
 
         private bool PropertyExists(int id)

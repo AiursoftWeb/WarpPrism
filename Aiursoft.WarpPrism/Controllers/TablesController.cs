@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Aiursoft.WarpPrism.Data;
 using Aiursoft.WarpPrism.Models;
+using Aiursoft.WarpPrism.Models.TablesViewModels;
 
 namespace Aiursoft.WarpPrism.Controllers
 {
@@ -23,7 +24,12 @@ namespace Aiursoft.WarpPrism.Controllers
         public async Task<IActionResult> Index(int Id)
         {
             var applicationDbContext = _context.Tables.Include(t => t.Context);
-            return View(await applicationDbContext.Where(t=>t.DatabaseId == Id).ToListAsync());
+            var model = new IndexViewModel
+            {
+                DatabaseId = Id,
+                Tables = await applicationDbContext.Where(t => t.DatabaseId == Id).ToListAsync()
+            };
+            return View(model);
         }
 
         // GET: Tables/Details/5
@@ -118,7 +124,7 @@ namespace Aiursoft.WarpPrism.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),new { id = table.DatabaseId});
             }
             ViewData["DatabaseId"] = new SelectList(_context.Databases, "DataBaseId", "DataBaseId", table.DatabaseId);
             return View(table);
