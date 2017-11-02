@@ -39,5 +39,6 @@
 </table>
 
 <div>
-    <a asp-controller="Tables" asp-action="Index" asp-route-id="@Model.DatabaseId">返回表列表</a>
+    <a class="btn btn-default" asp-controller="Tables" asp-action="Index" asp-route-id="@Model.DatabaseId">返回表列表</a>
+    <a class="btn btn-primary" asp-controller="Items" asp-action="Index" asp-route-id="@Model.TableId">查看表数据</a>
 </div>

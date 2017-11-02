@@ -4,13 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>编辑</h2>
 
-<h4>Item</h4>
+<p>这将调整表格的特定一行的值</p>
 <hr />
 <div class="row">
     <div class="col-md-4">
-
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TargetItemId" value="@Model.TargetItemId" />
@@ -19,7 +18,7 @@
             {
                 <div class="form-group">
                     <label class="control-label">@property.PropertyName</label>
-                    <input name="@property.PropertyId" class="form-control" />
+                    <input name="@property.PropertyId" value="@property.CurrentValue" class="form-control" />
                 </div>
             }
             <div class="form-group">

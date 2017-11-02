@@ -14,8 +14,8 @@ namespace Aiursoft.WarpPrism.Models
 
     public enum PropertyType : int
     {
-        number = 1,
-        text = 2
+        @int = 1,
+        @varchar= 2
     }
 
     public class DataBase
@@ -54,6 +54,9 @@ namespace Aiursoft.WarpPrism.Models
         public int TableId { get; set; }
         [ForeignKey(nameof(TableId))]
         public Table Context { get; set; }
+
+        [NotMapped]
+        public string CurrentValue { get; set; }
     }
 
     public class Item

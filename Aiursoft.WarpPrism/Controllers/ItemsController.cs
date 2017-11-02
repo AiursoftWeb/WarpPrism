@@ -92,6 +92,10 @@ namespace Aiursoft.WarpPrism.Controllers
                 TableId = item.TableId,
                 TargetItemId = id
             };
+            foreach(var property in model.Properties)
+            {
+                property.CurrentValue = _context.Values.SingleOrDefault(t => t.ItemId == item.ItemId && t.PropertyId == property.PropertyId)?.RealValue ?? "null";
+            }
             return View(model);
         }
 
