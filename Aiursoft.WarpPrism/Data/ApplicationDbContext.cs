@@ -15,6 +15,13 @@ namespace Aiursoft.WarpPrism.Data
         {
         }
 
+
+        public DbSet<DataBase> Databases { get; set; }
+        public DbSet<Table> Tables { get; set; }
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Value> Values { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
