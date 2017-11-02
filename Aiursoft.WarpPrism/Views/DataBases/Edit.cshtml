@@ -4,34 +4,27 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>重命名数据库</h2>
 
-<h4>DataBase</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DataBaseId" />
             <div class="form-group">
-                <label asp-for="DataBaseName" class="control-label"></label>
+                <label class="control-label">新数据库名称</label>
                 <input asp-for="DataBaseName" class="form-control" />
                 <span asp-validation-for="DataBaseName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreateTime" class="control-label"></label>
-                <input asp-for="CreateTime" class="form-control" />
-                <span asp-validation-for="CreateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="保存" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">返回列表</a>
 </div>
 
 @section Scripts {

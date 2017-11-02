@@ -54,10 +54,11 @@ namespace Aiursoft.WarpPrism.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DataBaseId,DataBaseName,CreateTime")] DataBase dataBase)
+        public async Task<IActionResult> Create([Bind("DataBaseId,DataBaseName")] DataBase dataBase)
         {
             if (ModelState.IsValid)
             {
+                dataBase.CreateTime = DateTime.Now;
                 _context.Add(dataBase);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,22 +96,10 @@ namespace Aiursoft.WarpPrism.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(dataBase);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DataBaseExists(dataBase.DataBaseId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var oldDatabase = await _context.Databases.SingleOrDefaultAsync(t => t.DataBaseId == id);
+                oldDatabase.DataBaseName = dataBase.DataBaseName;
+                _context.Update(oldDatabase);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(dataBase);

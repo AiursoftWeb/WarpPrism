@@ -4,19 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>数据库列表</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-success" asp-action="Create">新建数据库</a>
 </p>
 <table class="table">
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.DataBaseName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreateTime)
+                    数据库名称
                 </th>
             <th></th>
         </tr>
@@ -28,12 +25,11 @@
                 @Html.DisplayFor(modelItem => item.DataBaseName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreateTime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DataBaseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DataBaseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DataBaseId">Delete</a>
+                <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.DataBaseId">重命名</a> 
+                <a class="btn btn-warning" asp-controller="Tables" asp-action="Index" asp-route-id="@item.DataBaseId">查看所有表</a> 
+                <a class="btn btn-success" asp-controller="Tables" asp-action="Create" asp-route-id="@item.DataBaseId">新建表</a> 
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.DataBaseId">属性</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.DataBaseId">删除</a>
             </td>
         </tr>
 }

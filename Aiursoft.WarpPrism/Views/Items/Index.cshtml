@@ -1,0 +1,35 @@
+﻿@model Aiursoft.WarpPrism.Models.ItemsViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+<h2>查看表数据</h2>
+<p>
+    <a asp-action="Create" asp-route-id="@Model.EntireTable.TableId">插入新数据</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (var property in Model.EntireTable.Properties)
+            {
+                <th>@property.PropertyName</th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EntireTable.Items)
+        {
+            <tr>
+                @foreach (var property in Model.EntireTable.Properties)
+                {
+                    <th>@(Model.AllValues.SingleOrDefault(t => t.ItemId == item.ItemId && t.PropertyId == property.PropertyId)?.RealValue ?? "null")</th>
+                }
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,10 +12,10 @@ namespace Aiursoft.WarpPrism.Models
     {
     }
 
-    public enum PropertyType
+    public enum PropertyType : int
     {
-        number,
-        text
+        number = 1,
+        text = 2
     }
 
     public class DataBase

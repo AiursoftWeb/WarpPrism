@@ -1,0 +1,40 @@
+﻿@model Aiursoft.WarpPrism.Models.TablesViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>所有表</h2>
+<p>
+    <a class="btn btn-success" asp-action="Create" asp-route-id="">新建数据库</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    表名
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableName)
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.TableId">重命名</a>
+                <a class="btn btn-primary" asp-controller="Properties" asp-action="Index" asp-route-id="@item.TableId">查看表定义</a>
+                <a class="btn btn-primary" asp-controller="Items" asp-action="Index" asp-route-id="@item.TableId">查看表数据</a>
+                <a class="btn btn-success" asp-action="Details" asp-route-id="@item.TableId">表属性</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.TableId">删除表</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Databases" asp-action="Index">返回数据库列表</a>
+</div>

@@ -4,20 +4,18 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>数据库属性</h2>
 
 <div>
-    <h4>DataBase</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.DataBaseName)
+            数据库名
         </dt>
         <dd>
             @Html.DisplayFor(model => model.DataBaseName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.CreateTime)
+            创建时间
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CreateTime)
@@ -25,6 +23,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.DataBaseId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.DataBaseId">重命名</a> |
+    <a asp-action="Index">返回</a>
 </div>

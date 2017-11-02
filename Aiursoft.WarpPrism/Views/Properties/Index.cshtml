@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Aiursoft.WarpPrism.Models.Property>
+@{
+    ViewData["Title"] = "Index";
+}
+<h2>表的所有列</h2>
+<p>
+    <a asp-action="Create">新建列</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                列名
+            </th>
+            <th>
+                列类型
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.PropertyId">重命名列</a>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.PropertyId">详细信息</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.PropertyId">删除列</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
