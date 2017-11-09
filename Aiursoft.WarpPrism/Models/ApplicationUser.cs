@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aiursoft.WarpPrism.Models
 {
@@ -21,6 +22,7 @@ namespace Aiursoft.WarpPrism.Models
     public class DataBase
     {
         public int DataBaseId { get; set; }
+        [Required]
         public string DataBaseName { get; set; }
         public DateTime CreateTime { get; set; }
 
